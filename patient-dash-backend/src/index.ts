@@ -1,5 +1,6 @@
 import { Elysia } from "elysia";
 import { swagger } from '@elysiajs/swagger'
+import { authApiDetail, patientApiDetail, providerApiDetail, swaggerDocumentation } from "./constants/swagger";
 
 // URL Structure: //
 ////////////////////
@@ -24,19 +25,19 @@ import { swagger } from '@elysiajs/swagger'
   //   })
 
 const app = new Elysia()
-  .use(swagger())
+  .use(swagger({ documentation: swaggerDocumentation }))
   .group("/auth", app => {
     return app
-    .post("/login", () => "Login Route")
-    .post("/logout", () => "Logout Route")
-    .post("/register", () => "Register new provider account")
+    .post("/login", () => "Login Route", authApiDetail)
+    .post("/logout", () => "Logout Route", authApiDetail)
+    .post("/register", () => "Register new provider account", authApiDetail)
   })
   .group("/api", app => app
-    .get("/patients", () => "GET Patients")
-    .post("/patients", () => "POSTing a new patient record")
-    .get("/patients/:id", ({params: id}) => `GET Patient by ID ${id}`)
-    .patch("/patients/:id", ({params: id}) => `PATCHing patient ${id}`)
-    .get("/providers/:id", ({params: id}) => `GET provider by ID ${id}`)
+    .get("/patients", () => "GET Patients", patientApiDetail)
+    .post("/patients", () => "POSTing a new patient record", patientApiDetail)
+    .get("/patients/:id", ({params: id}) => `GET Patient by ID ${id}`, patientApiDetail)
+    .patch("/patients/:id", ({params: id}) => `PATCHing patient ${id}`, patientApiDetail)
+    .get("/providers/:id", ({params: id}) => `GET provider by ID ${id}`, providerApiDetail)
   )
   .listen(3001);
 
