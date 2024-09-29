@@ -19,15 +19,16 @@ const prisma = new PrismaClient()
 // api/providers/:id
   // GET
 
-
-
 const app = new Elysia()
   .use(swagger({ documentation: swaggerDocumentation, provider: 'scalar' }))
   .group("/auth", app => {
     return app
     .post("/login", () => "Login Route", authApiDetail)
     .post("/logout", () => "Logout Route", authApiDetail)
-    .post("/register", () => "Register new provider account", authApiDetail)
+    .post("/register", () => {
+      // TODO - Replace with registration logic
+      return "Register";
+    }, authApiDetail)
   })
   .group("/api", app => app
     .get("/patients", async ({query: {
@@ -35,18 +36,6 @@ const app = new Elysia()
       page,
       searchString
     }}) => {
-      /**
-       * Parameters:
-       *    count - How many results are returned
-       *    searchString - A string that matches patient name
-       *    page? - Which page we're on
-       * 
-       * Returns:
-       *    currentPage - The current page
-       *    finalPage - The final page with results
-       *    results - An array of patient data
-       */
-
       // Prevent unnecessary query if page requested goes beyond total page count
       const finalPage = Math.ceil(await prisma.patient.count() / count);
       if(page && finalPage > page) {
@@ -111,13 +100,6 @@ const app = new Elysia()
     }}) => {
       const res = prisma.patient.create({
         data: {
-          // id: number;
-          // createdAt: Date;
-          // lastUpdated: Date;
-          // firstName: string;
-          // middleName: string | null;
-          // lastName: string;
-          // dateOfBirth: Date;
           firstName,
           lastName,
           dateOfBirth,
@@ -146,7 +128,9 @@ const app = new Elysia()
         id: t.Number(),
       })
     })
-    .patch("/patients/:id", ({params: id}) => `PATCHing patient ${id}`, patientApiDetail)
+    .patch("/patients/:id", ({params: id}) => {
+      // TODO - Support adding arbitrary data, editing
+    }, patientApiDetail)
     .get("/providers/:id", ({params: id}) => `GET provider by ID ${id}`, providerApiDetail)
   )
   .listen(3001);
