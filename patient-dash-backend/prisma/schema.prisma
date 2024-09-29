@@ -1,0 +1,88 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Schema
+model Provider {
+  id       Int    @id @default(autoincrement())
+  email    String @unique
+  password String
+}
+
+model Patient {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  lastUpdated DateTime @updatedAt
+  firstName   String
+  middleName  String?
+  lastName    String
+  dateOfBirth DateTime @db.Date
+}
+
+model Address {
+  id              Int     @id @default(autoincrement())
+  streetAddress   String
+  secondaryStreet String?
+  city            String
+  state           USState
+  zip             Int
+}
+
+enum USState {
+  AL
+  AK
+  AR
+  AZ
+  CA
+  CO
+  CT
+  DC
+  DE
+  FL
+  GA
+  HI
+  IA
+  ID
+  IL
+  IN
+  KS
+  KY
+  LA
+  MA
+  MD
+  ME
+  MI
+  MN
+  MO
+  MS
+  MT
+  NC
+  ND
+  NE
+  NH
+  NJ
+  NM
+  NV
+  NY
+  OK
+  OH
+  OR
+  PA
+  RI
+  SC
+  SD
+  TN
+  TX
+  UT
+  VA
+  VT
+  WA
+  WI
+  WV
+  WY
+}
