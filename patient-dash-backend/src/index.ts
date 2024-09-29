@@ -103,7 +103,12 @@ const app = new Elysia()
         ))
       })
     })
-    .post("/patients", () => {
+    .post("/patients", ({body: {
+      firstName,
+      lastName,
+      dateOfBirth,
+      middleName,
+    }}) => {
       const res = prisma.patient.create({
         data: {
           // id: number;
@@ -113,13 +118,22 @@ const app = new Elysia()
           // middleName: string | null;
           // lastName: string;
           // dateOfBirth: Date;
-          firstName: 'First Patient Name',
-          lastName: 'Last patient name',
-          dateOfBirth: new Date('01/01/2000'),
+          firstName,
+          lastName,
+          dateOfBirth,
+          ...(middleName ? { middleName } : {})
         }
       });
       return res;
-    }, patientApiDetail)
+    }, {
+      ...patientApiDetail,
+      body: t.Object({
+        firstName: t.String(),
+        lastName: t.String(),
+        dateOfBirth: t.Date(),
+        middleName: t.Optional(t.String())
+      })
+    })
     .get("/patients/:id", ({params: { id }}) => {
       return prisma.patient.findUnique({
         where: {
