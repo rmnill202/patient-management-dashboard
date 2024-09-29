@@ -120,7 +120,18 @@ const app = new Elysia()
       });
       return res;
     }, patientApiDetail)
-    .get("/patients/:id", ({params: id}) => `GET Patient by ID ${id}`, patientApiDetail)
+    .get("/patients/:id", ({params: { id }}) => {
+      return prisma.patient.findUnique({
+        where: {
+          id: id
+        }
+      })
+    }, {
+      ...patientApiDetail,
+      params: t.Object({
+        id: t.Number(),
+      })
+    })
     .patch("/patients/:id", ({params: id}) => `PATCHing patient ${id}`, patientApiDetail)
     .get("/providers/:id", ({params: id}) => `GET provider by ID ${id}`, providerApiDetail)
   )
