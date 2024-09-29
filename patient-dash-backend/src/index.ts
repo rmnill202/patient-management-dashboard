@@ -22,7 +22,7 @@ const prisma = new PrismaClient()
 
 
 const app = new Elysia()
-  .use(swagger({ documentation: swaggerDocumentation }))
+  .use(swagger({ documentation: swaggerDocumentation, provider: 'scalar' }))
   .group("/auth", app => {
     return app
     .post("/login", () => "Login Route", authApiDetail)
@@ -32,11 +32,13 @@ const app = new Elysia()
   .group("/api", app => app
     .get("/patients", async ({query: {
       count,
-      page
+      page,
+      searchString
     }}) => {
       /**
        * Parameters:
        *    count - How many results are returned
+       *    searchString - A string that matches patient name
        *    page? - Which page we're on
        * 
        * Returns:
@@ -58,6 +60,28 @@ const app = new Elysia()
       const res = await prisma.patient.findMany({
         take: count,
         skip: count * ((page || 1) - 1),
+        ...(searchString ? {where: {
+          OR: [
+            {
+              firstName: {
+                contains: searchString,
+                mode: 'insensitive'
+              }
+            },
+            {
+              lastName: {
+                contains: searchString,
+                mode: 'insensitive'
+              }
+            },
+            {
+              middleName: {
+                contains: searchString,
+                mode: 'insensitive'
+              }
+            }
+          ]
+        }} : {})
       });
 
       return {
@@ -70,6 +94,13 @@ const app = new Elysia()
       query: t.Object({
         count: t.Number(),
         page: t.Optional(t.Number()),
+        searchString: t.Optional(t.String()),
+        filters: t.Optional(t.Array(
+          t.Object({
+            filterKey: t.String(),
+            filterValue: t.String(),
+          })
+        ))
       })
     })
     .post("/patients", () => {
