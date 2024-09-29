@@ -11,7 +11,7 @@ const swaggerDocumentation = {
   info: {
     title: 'Patient Dashboard APIs',
     version: '0.0.1'
-  }
+  },
 };
 
 
