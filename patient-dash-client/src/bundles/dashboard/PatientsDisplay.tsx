@@ -1,11 +1,11 @@
-import PlaceholderCard from "../../components/PlaceholderCard";
+import PatientCard from "../../components/PatientCard";
 import { Patient } from "../../types/Patient.types";
 
 const PatientsDisplay = ({patients}: {patients: Patient[]}):JSX.Element => {
   return (<>
     <div>Placeholder Patient Data Display</div>
     {patients.map((patient: Patient) => {
-      return <PlaceholderCard patient={patient}/>
+      return <PatientCard patient={patient}/>
     })}
   </>);
 }
