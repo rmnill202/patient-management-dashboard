@@ -1,20 +1,28 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { API_URL } from "../constants/environment";
 import { useAtom } from "jotai";
-import { pageNumberAtom } from "../atoms/DashboardAtoms";
+import { pageNumberAtom, resultsPerPageAtom } from "../atoms/DashboardAtoms";
+import { Patient } from "../types/Patient.types";
 
-const fetchPatients = async (page: Number) => {
-  const res = await fetch(`${API_URL}/patients?count=10&page=${page}`);
+type GetPatientsData = {
+  currentPage: number;
+  finalPage: number;
+  results: Patient[];
+}
+
+const fetchPatients = async (page: Number, resultsPerPage: Number) => {
+  const res = await fetch(`${API_URL}/patients?count=${resultsPerPage}&page=${page}`);
   return await res.json();
 }
 
 const useGetPatients = () => {
   const [pageNumber] = useAtom(pageNumberAtom);
+  const [resultsPerPage] = useAtom(resultsPerPageAtom);
   
   const { isPending, isError, error, data, isFetching, isPlaceholderData } =
-    useQuery({
-      queryKey: ['projects', pageNumber],
-      queryFn: () => fetchPatients(pageNumber),
+    useQuery<GetPatientsData>({
+      queryKey: ['projects', pageNumber, resultsPerPage],
+      queryFn: () => fetchPatients(pageNumber, resultsPerPage),
       placeholderData: keepPreviousData,
     })
 
