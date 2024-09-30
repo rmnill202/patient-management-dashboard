@@ -1,6 +1,6 @@
 
 const Search = ():JSX.Element => {
-  return (<div>Search</div>)
+  return (<div>TODO - Search</div>)
 }
 
 export default Search;

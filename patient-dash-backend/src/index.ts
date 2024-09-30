@@ -42,7 +42,7 @@ const app = new Elysia()
     }}) => {
       // Prevent unnecessary query if page requested goes beyond total page count
       const finalPage = Math.ceil(await prisma.patient.count() / count);
-      if(page && finalPage > page) {
+      if(page && (page > finalPage)) {
         return {
           currentPage: finalPage,
           finalPage,

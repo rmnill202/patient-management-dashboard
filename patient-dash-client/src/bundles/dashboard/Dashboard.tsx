@@ -5,16 +5,20 @@ import PatientsDisplay from "./PatientsDisplay"
 import Search from "./Search"
 
 const Dashboard = ():JSX.Element => {
+  const { isPending, data } = useGetPatients();
 
-  const { isPending, data } = useGetPatients()
-
+  // TODO - Remove once components have support for loading data types
+  if(!data) {
+    return <div>Loading...</div>
+  }
 
   return (<>
-    <div>Data results {data ? JSON.stringify(data) : 'None'}</div>
-    <Search/>
-    <Filters/>
-    <PatientsDisplay/>
-    <Pagination/>
+    <div className="flex">
+      <Search/>
+      <Filters/>
+    </div>
+    <PatientsDisplay patients={data?.results || []}/>
+    <Pagination currentPage={data.currentPage} finalPage={data.finalPage}/>
     </>)
 }
 
