@@ -2,6 +2,7 @@ import { Elysia, t } from "elysia";
 import { swagger } from '@elysiajs/swagger'
 import { authApiDetail, patientApiDetail, providerApiDetail, swaggerDocumentation } from "./constants/swagger";
 import { PrismaClient } from '@prisma/client'
+import cors from "@elysiajs/cors";
 
 const prisma = new PrismaClient() 
 
@@ -21,6 +22,9 @@ const prisma = new PrismaClient()
 
 const app = new Elysia()
   .use(swagger({ documentation: swaggerDocumentation, provider: 'scalar' }))
+  .use(cors({
+    origin: 'http://localhost:5173'
+  }))
   .group("/auth", app => {
     return app
     .post("/login", () => "Login Route", authApiDetail)

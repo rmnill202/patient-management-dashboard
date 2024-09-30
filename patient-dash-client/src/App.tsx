@@ -1,20 +1,24 @@
+import {
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
 import { useState } from 'react'
 import './App.css'
+import { Provider } from 'jotai';
+import Dashboard from './bundles/dashboard/Dashboard';
+
+const queryClient = new QueryClient();
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <h1 className="text-3xl font-bold underline">
-          Hello world!
-        </h1>
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-      </div>
+    <QueryClientProvider client={queryClient}>
+      <Provider>
+        <Dashboard/>
+      </Provider>
+    </QueryClientProvider>
     </>
   )
 }
