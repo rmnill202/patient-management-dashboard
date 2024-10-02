@@ -1,7 +1,7 @@
 import { Elysia, t } from "elysia";
 import { swagger } from '@elysiajs/swagger'
 import { authApiDetail, patientApiDetail, providerApiDetail, swaggerDocumentation } from "./constants/swagger";
-import { PrismaClient } from '@prisma/client'
+import { PatientStatus, PrismaClient } from '@prisma/client'
 import cors from "@elysiajs/cors";
 
 const prisma = new PrismaClient() 
@@ -111,7 +111,8 @@ const app = new Elysia()
           firstName,
           lastName,
           dateOfBirth,
-          ...(middleName ? { middleName } : {})
+          ...(middleName ? { middleName } : {}),
+          currentStatus: PatientStatus.Onboarding,
         }
       });
       return res;
