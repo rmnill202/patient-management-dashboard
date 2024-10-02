@@ -105,6 +105,7 @@ const app = new Elysia()
       lastName,
       dateOfBirth,
       middleName,
+      // address,
     }}) => {
       const res = prisma.patient.create({
         data: {
@@ -122,7 +123,14 @@ const app = new Elysia()
         firstName: t.String(),
         lastName: t.String(),
         dateOfBirth: t.Date(),
-        middleName: t.Optional(t.String())
+        middleName: t.Optional(t.String()),
+        // address: t.Object({
+        //   streetAddress: t.String(),
+        //   secondaryStreet: t.Optional(t.String()),
+        //   city: t.String(),
+        //   state: t.String(),
+        //   zip: t.Number(),
+        // }),
       })
     })
     .get("/patients/:id", ({params: { id }}) => {

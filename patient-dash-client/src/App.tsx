@@ -19,7 +19,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <Provider>
         <div className='flex'>
-          {/* <Sidebar/> */}
+          <Sidebar/>
           <Dashboard/>
         </div>
       </Provider>

@@ -3,6 +3,7 @@ import Filters from "./Filters"
 import Pagination from "./Pagination"
 import PatientsDisplay from "./PatientsDisplay"
 import Search from "./Search"
+import SearchResultMessage from "./SearchResultMessage"
 
 const Dashboard = ():JSX.Element => {
   const { isPending, data } = useGetPatients();
@@ -13,10 +14,11 @@ const Dashboard = ():JSX.Element => {
   }
 
   return (<div className="flex-grow">
-    <div className="flex">
+    <div className="flex p-2 gap-4 justify-between">
       <Search/>
       <Filters/>
     </div>
+    <SearchResultMessage/>
     <PatientsDisplay patients={data?.results || []}/>
     <Pagination currentPage={data.currentPage} finalPage={data.finalPage}/>
     </div>);

@@ -5,6 +5,7 @@ import { withAtomEffect } from 'jotai-effect'
 const pageNumberAtom = atom<number>(1);
 const resultsPerPageAtom = atom<number>(10);
 const searchStringAtom = atom<string>('');
+const locationAtom = atom<string>('');
 
 const resultsOutdatedAtom = withAtomEffect(atom<boolean>(true), (get, set) => {
   if(get(searchStringAtom)) {
@@ -17,4 +18,5 @@ export {
   resultsPerPageAtom,
   searchStringAtom,
   resultsOutdatedAtom,
+  locationAtom,
 };

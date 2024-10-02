@@ -2,12 +2,17 @@ import { resultsOutdatedAtom, searchStringAtom } from "@/atoms/DashboardAtoms";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAtom } from "jotai";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Search = ():JSX.Element => {
   const [searchString, setSearchString] = useAtom(searchStringAtom);
   const [localSearchString, setLocalSearchString] = useState<string>(searchString)
   const [outdated, setOutdated] = useAtom(resultsOutdatedAtom);
+
+  useEffect(() => {
+    setLocalSearchString(searchString);
+  }, [searchString])
+
   return (
     <form className="flex w-full max-w-sm items-center space-x-2" onSubmit={(e) => {
       e.preventDefault();
@@ -21,7 +26,7 @@ const Search = ():JSX.Element => {
           setOutdated(true);
         }
         }/>
-      <Button type="submit" /*onClick={() => setSearchString(localSearchString)}*/ disabled={!outdated}>Search</Button>
+      <Button type="submit" disabled={!outdated}>Search</Button>
     </form>
   )
 }

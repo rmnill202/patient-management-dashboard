@@ -1,27 +1,17 @@
 import { PatientStatus } from "@/types/Patient.types";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+
+const StatusColorMap = {
+  [PatientStatus.Active]: 'bg-gray-100 text-gray-800',
+  [PatientStatus.Onboarding]: 'bg-gray-100 text-gray-800',
+  [PatientStatus.Churned]: 'bg-gray-100 text-gray-800',
+  [PatientStatus.Inquiry]: 'bg-yellow-100 text-yellow-800',
+}
+
+const UnknownStatusColor = 'bg-gray-100 text-gray-800';
 
 const StatusBadge = ({status}: {status?: PatientStatus}):JSX.Element => {
 
-  return (<div>{status || 'Unknown'}</div>)
-  // Consider moving to an in-UI edit option
-  // return (<Select
-  //   value={`${status}`}
-  //   onValueChange={(value) => {
-  //     // TODO set patient status
-  //   }}
-  // >
-  //   <SelectTrigger className="h-8 w-[70px]">
-  //     <SelectValue placeholder={`${perPage}`} />
-  //   </SelectTrigger>
-  //   <SelectContent side="top">
-  //     {[/* TODO Status Enum */].map((pageSize) => (
-  //       <SelectItem key={pageSize} value={`${pageSize}`}>
-  //         {pageSize}
-  //       </SelectItem>
-  //     ))}
-  //   </SelectContent>
-  // </Select>);
+  return (<span className={`${status ? StatusColorMap[status] : UnknownStatusColor} text-xs font-medium me-2 px-2.5 py-0.5 rounded`}>{status || 'Unknown'}</span>)
 }
 
 export default StatusBadge;

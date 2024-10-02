@@ -82,8 +82,10 @@ enum USState {
   WY,
 }
 
+export {
+  PatientStatus,
+}
 
 export type {
   Patient,
-  PatientStatus,
 };
