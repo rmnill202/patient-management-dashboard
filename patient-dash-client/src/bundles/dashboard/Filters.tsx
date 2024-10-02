@@ -1,6 +1,10 @@
 
+
+
 const Filters = ():JSX.Element => {
-  return (<div>TODO - Filters</div>)
+  return (<div>
+
+  </div>);
 }
 
 export default Filters;

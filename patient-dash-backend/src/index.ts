@@ -50,9 +50,10 @@ const app = new Elysia()
         };
       }
 
+      // TODO - Cache result so that we don't query the entire table with every single API call
       const res = await prisma.patient.findMany({
-        take: count,
-        skip: count * ((page || 1) - 1),
+        // take: count,
+        // skip: count * ((page || 1) - 1),
         ...(searchString ? {where: {
           OR: [
             {
@@ -77,10 +78,13 @@ const app = new Elysia()
         }} : {})
       });
 
+      const firstRecordIndex = count * ((page || 1) - 1),
+        finalRecordIndex = Math.min(count * ((page || 1)), res.length);
+
       return {
         currentPage: page || 1,
-        finalPage,
-        results: res,
+        finalPage: Math.ceil(res.length / count),
+        results: res.slice(firstRecordIndex, finalRecordIndex),
       }
     }, {
       ...patientApiDetail,

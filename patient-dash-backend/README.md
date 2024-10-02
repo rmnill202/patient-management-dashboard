@@ -9,7 +9,7 @@ bun install
 
 From here, run this command to generate your local Prisma client.
 ```bash
-prisma generate
+bun prisma generate
 ```
 
 Finally, go into the `.env` file in this folder and update the `DATABASE_URL` variable to match the environment variables you've setup for the database.
