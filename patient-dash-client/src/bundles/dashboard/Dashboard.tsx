@@ -12,14 +12,14 @@ const Dashboard = ():JSX.Element => {
     return <div>Loading...</div>
   }
 
-  return (<>
+  return (<div className="flex-grow">
     <div className="flex">
       <Search/>
       <Filters/>
     </div>
     <PatientsDisplay patients={data?.results || []}/>
     <Pagination currentPage={data.currentPage} finalPage={data.finalPage}/>
-    </>)
+    </div>);
 }
 
 export default Dashboard;

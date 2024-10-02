@@ -6,6 +6,8 @@ import { useState } from 'react'
 import './App.css'
 import { Provider } from 'jotai';
 import Dashboard from './bundles/dashboard/Dashboard';
+import Sidebar from './components/Sidebar';
+
 
 const queryClient = new QueryClient();
 
@@ -16,7 +18,10 @@ function App() {
     <>
     <QueryClientProvider client={queryClient}>
       <Provider>
-        <Dashboard/>
+        <div className='flex'>
+          {/* <Sidebar/> */}
+          <Dashboard/>
+        </div>
       </Provider>
     </QueryClientProvider>
     </>

@@ -2,6 +2,10 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@radix-ui/react-collapsible"
+import {
+  ChevronDownIcon
+} from "@radix-ui/react-icons"
+import { Button } from "./button"
 
 const Table = React.forwardRef<
   HTMLTableElement,
@@ -67,6 +71,9 @@ const TableRow = React.forwardRef<
 ))
 TableRow.displayName = "TableRow"
 
+// TODO
+//  1 - On open, focus child elements
+//  2 - Support custom open/close UI elements
 const CollapseTableRow = React.forwardRef<
   HTMLTableRowElement,
   React.HTMLAttributes<HTMLTableRowElement>
@@ -81,11 +88,13 @@ const CollapseTableRow = React.forwardRef<
     <>
     <TableRow>
       {childComponents.slice(0, -1)}
-      <TableCell>
+      <td>
         <CollapsibleTrigger asChild>
-          <button>Hi</button>
+        <Button size="icon" variant={isOpen ? 'destructive' : 'secondary'}>
+          <ChevronDownIcon className={`table-chevron table-chevron-${isOpen}`}/>
+        </Button>
         </CollapsibleTrigger>
-      </TableCell>
+      </td>
     </TableRow>
     <CollapsibleContent asChild>
       <tr>
@@ -120,7 +129,7 @@ const TableCell = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <td
     ref={ref}
-    className={cn("p-4 align-middle [&:has([role=checkbox])]:pr-0", className)}
+    className={cn("p-4 [&:has([role=checkbox])]:pr-0", className)}
     {...props}
   />
 ))

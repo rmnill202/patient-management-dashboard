@@ -9,28 +9,43 @@ datasource db {
 
 // Schema
 model Provider {
-  id       Int    @id @default(autoincrement())
-  email    String @unique
-  password String
+  id            Int    @id @default(autoincrement())
+  email         String @unique
+  password      String
+  formTemplates Json[]
 }
 
 model Patient {
-  id          Int      @id @default(autoincrement())
-  createdAt   DateTime @default(now())
-  lastUpdated DateTime @updatedAt
-  firstName   String
-  middleName  String?
-  lastName    String
-  dateOfBirth DateTime @db.Date
+  id                 Int             @id @default(autoincrement())
+  createdAt          DateTime        @default(now())
+  lastUpdated        DateTime        @updatedAt
+  firstName          String
+  middleName         String?
+  lastName           String
+  dateOfBirth        DateTime        @db.Date
+  currentStatus      PatientStatus?
+  statusHistory      PatientStatus[]
+  statusHistoryDates DateTime[]
+  addresses          Address[]
+  forms              Json[]
 }
 
 model Address {
-  id              Int     @id @default(autoincrement())
+  id              Int      @id @default(autoincrement())
   streetAddress   String
   secondaryStreet String?
   city            String
   state           USState
   zip             Int
+  Patient         Patient? @relation(fields: [patientId], references: [id])
+  patientId       Int?
+}
+
+enum PatientStatus {
+  Inquiry
+  Onboarding
+  Active
+  Churned
 }
 
 enum USState {
